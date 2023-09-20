@@ -27,5 +27,6 @@
   handlers:
 
     - name: restart nginx
-      command: docker compose -f /home/ubuntu/app/docker-compose.yml restart nginx
-   
+      command: docker compose restart nginx
+      args:
+        chdir: /home/ubuntu/app/   
