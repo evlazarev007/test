@@ -1,0 +1,31 @@
+---
+- name: Deploy dockerized web application
+  hosts: webserver
+
+  vars_files:
+    - ./vars/main.yml
+
+  tasks:
+
+    - name: Distribute necessary files
+      synchronize:
+        src: ../files/
+        dest: /home/ubuntu/app/
+
+    - name: Generate nginx.conf
+      template:
+        src=nginx.conf
+        dest=/home/ubuntu/app/nginx.conf
+      notify: 
+        - restart nginx
+
+    - name: Run docker compose
+      command: docker compose up -d
+      args:
+        chdir: /home/ubuntu/app/
+
+  handlers:
+
+    - name: restart nginx
+      command: docker compose -f /home/ubuntu/app/docker-compose.yml restart nginx
+   

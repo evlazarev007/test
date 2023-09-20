@@ -1,0 +1,2 @@
+worker_connections: 2048
+server_name: remote-pc1
